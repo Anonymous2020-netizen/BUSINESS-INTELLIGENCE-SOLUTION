@@ -1,0 +1,209 @@
+import java.util.Scanner;
+
+public class Test{
+
+     public static void main(String args[]) throws Insufficientbalance, Negativebalance
+
+     {
+
+          SavingsAcc account = new SavingsAcc(" vunguyen ",2000,0.3);
+
+          Scanner sc = new Scanner(System.in);
+
+          System.out.print("Deposit Amount : ");
+
+          double amount = sc.nextDouble();
+
+          account.deposit(amount);
+
+          account.printStatement();
+
+          System.out.println();
+
+          System.out.print("Withdrawal Amount : ");
+
+          double unit = sc.nextDouble();
+
+          account.withdraw(unit);
+
+          account.printStatement();
+
+          account.postInterest();
+
+          System.out.println();
+
+          System.out.println("Monthly Interest");
+
+          account.printStatement();
+
+     }
+
+}
+
+public class BankAcc {
+
+     String first;
+
+     double balance;
+// Default constructor
+     public BankAcc()
+
+     {
+
+     }
+
+
+
+     public BankAcc(String name) throws Negativebalance
+
+     {
+
+          this.first = name;
+
+          balance = 1;
+
+     }
+
+
+
+     public BankAcc(String name, double balance) throws Negativebalance
+
+     {
+
+          this.first = name;
+
+          if(balance < 1)
+
+          {
+
+              throw new Negativebalance("Invalid ");
+
+          }
+
+          this.balance = balance;
+
+     }
+
+
+
+     public void deposit(double amount) throws Negativebalance
+
+     {
+
+          if(amount < 1)
+
+          {
+
+              throw new Negativebalance("Invalid ");
+
+          }
+
+          balance+=amount;
+
+     }
+
+     public void withdraw(double amount) throws Insufficientbalance, Negativebalance
+
+     {
+
+          if(balance < amount)
+
+          {
+
+              throw new Insufficientbalance("Invalid ");
+
+          }
+
+          if(amount < 1)
+
+          {
+
+              throw new Negativebalance("Invalid ");
+
+          }
+
+          balance-=amount;
+
+     }
+
+     public double getBalance()
+
+     {
+
+          return balance;
+
+     }
+
+     public void printStatement()
+
+     {
+
+          System.out.println(first+""+balance);
+
+     }
+
+}
+public class Insufficientbalance extends Exception {
+
+     Insufficientbalance(String str)
+
+     {
+
+          super(str);
+
+     }
+
+}
+public class Negativebalance extends Exception {
+
+     Negativebalance(String str)
+
+     {
+
+          super(str);
+
+     }
+
+}
+public class SavingsAcc extends BankAcc{
+
+     double Rate;
+
+     public SavingsAcc(String name,double balance,double rate) throws Negativebalance
+
+     {
+
+          super(name,balance);
+
+          if(balance < 1)
+
+          {
+
+              throw new Negativebalance("Error");
+
+          }
+
+          this.Rate = rate;
+
+     }
+
+     public void postInterest() throws Negativebalance
+
+     {
+
+          double temp = balance * Rate / 12;
+
+          deposit(temp);
+
+     }
+
+
+     public void printStatement()
+
+     {
+
+          System.out.println("Amount for "+first+"\n"+"$ "+balance+" balance"+"\n"+Rate+" Rate");
+
+     }
+
+}
